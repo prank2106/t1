@@ -58,13 +58,22 @@ function defineTodayMinus18years() {
 
 
 //@@viewOff:helpers
+
+/**
+ * This function generates random birthdate of a random student.
+ * @returns generates random date between 06/11/1972 and 06/11/2022
+ */
 function generateRandomBirthDateForAgeInRange() {
     let fromDate = todayMinus50Years.getTime();
     let toDate = todayMinus18Years.getTime();
     return new Date(fromDate + Math.random() * (toDate - fromDate)).toISOString();
 }
 
-
+/**
+ * This function generates random student. It uses input data from arrays namesFemale, namesMale,
+ * surnamesFemale, surnamesMale, genders.
+ * @returns gender, day of birth, name and surname of random student
+ */
 function generateRandomStudent() {
     let randomNr = getRandom(0, 1);
     const gender = genders[randomNr];
