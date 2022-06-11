@@ -230,7 +230,7 @@ function isGenderValid(input) {
 
 function getAge(birthdate) {
 
-    let today = new Date();
+    //refer to const Date() above
     let birthDate = new Date(birthdate);
     let age = today.getFullYear() - birthDate.getFullYear();
     let m = today.getMonth() - birthDate.getMonth();
@@ -249,7 +249,7 @@ function calculateMetrics() {
     let sumOfAge = 0;
     let min = Number.MAX_SAFE_INTEGER;
     let max = Number.MIN_SAFE_INTEGER;
-    let agesArr = [];
+    let ages = [];
 
     let current;
     let currentAgeAsNumber;
@@ -267,11 +267,11 @@ function calculateMetrics() {
                 max = currentAgeAsNumber;
 
             sumOfAge += currentAgeAsNumber;
-            agesArr.push(currentAgeAsNumber);
+            ages.push(currentAgeAsNumber);
         }
     }
 
-    const sortedAges = agesArr.sort();
+    const sortedAges = ages.sort();
     let median;
     if (sortedAges.length % 2 === 0) {
         median = (sortedAges[sortedAges.length / 2] + sortedAges[sortedAges.length / 2]) / 2;
@@ -279,18 +279,9 @@ function calculateMetrics() {
         median = sortedAges[sortedAges.length / 2];
     }
 
-    let uniqueSorted = [];
-    for (let i = 0; i < sortedAges.length; i++) {
-        if (uniqueSorted[uniqueSorted.length - 1] !== sortedAges[i])
-            uniqueSorted.push(sortedAges[i]);
-    }
-
-    console.log(uniqueSorted)
-    console.log("uniqueSorted.length " + uniqueSorted.length)
     let avg = Math.round((sumOfAge / total) * 10) / 10;
-    //let aaresult = {total, avg, min, max, median, uniqueSorted};
 
-    return {total, avg, min, max, median, agesArr};
+    return {total, avg, min, max, median, ages};
 }
 
 function isValidDate(date) {
@@ -305,9 +296,7 @@ function isValidDate(date) {
  * @return {object} output data
  **/
 function main(dtoIn = {}) {
-
     return calculateMetrics();
-
 }
 
 //@@viewOff:main
