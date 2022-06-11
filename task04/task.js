@@ -263,7 +263,11 @@ function getNames(countOfNamesReturned, classRoom) {
     sortedMale = new Map([...myMapMale.entries()].sort((a, b) => b[1] - a[1]));
     sortedFemale = new Map([...myMapFemale.entries()].sort((a, b) => b[1] - a[1]));
 
-    const allObj = {all: slicedBoth, male: sortedMale, female: sortedFemale}
+    const allObj = {
+        all: Object.fromEntries(slicedBoth),
+        male: Object.fromEntries(sortedMale),
+        female: Object.fromEntries(sortedFemale)
+    }
 
     return allObj;
 }
