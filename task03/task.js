@@ -29,7 +29,11 @@ const chartDataPreview = `{
 
 //@@viewOn:helpers
 
-
+/**
+ * //create a Map with a Key Age and value will be the object with male: count and female:count
+ * @param {} studentsWithAge 
+ * @returns 
+ */
 function generateHistogram(studentsWithAge) {
 
 
@@ -54,7 +58,11 @@ function generateHistogram(studentsWithAge) {
     }
     return Object.fromEntries(ageSexCountMap);
 }
-
+/**
+ * Generate piechart of male and female age ratio
+ * @param {number} studentsWithAge 
+ * @returns 
+ */
 function generatePicaChart(studentsWithAge) {
 
     let manCount = 0;
@@ -74,7 +82,11 @@ function generatePicaChart(studentsWithAge) {
     ];
 }
 
-//cetnost veku
+/**
+ * Age frequency. Counts how many time is each value represented. 
+ * @param {number} studentsWithAge 
+ * @returns generates bar chart for each value
+ */
 function generateBarChart(studentsWithAge) {
     let obj = {};
 
@@ -95,7 +107,11 @@ function generateBarChart(studentsWithAge) {
 
     return resultArr;
 }
-
+/**
+ * Generate frequency of male and female age
+ * @param {number} studentsWithAge 
+ * @returns stacked bar chart
+ */
 function generateStackedBarChart() {
     let arr = [];
 
@@ -107,6 +123,11 @@ function generateStackedBarChart() {
     return arr;
 }
 
+/**
+ * Input data for main function
+ * @param {*} inputData 
+ * @returns 
+ */
 function generateData(inputData) {
 
     let studentsWithAge = inputData.classroom.map(each => {
