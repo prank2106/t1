@@ -293,7 +293,7 @@ function calculateMetrics() {
     return {total, avg, min, max, median, agesArr};
 }
 
-const isValidDate = function (date) {
+function isValidDate(date) {
     return (new Date(date) !== "Invalid Date") && !isNaN(new Date(date));
 }
 
