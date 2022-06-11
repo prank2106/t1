@@ -52,7 +52,7 @@ function generateHistogram(studentsWithAge) {
             }
         }
     }
-    return {histogram: ageSexCountMap};
+    return Object.fromEntries(ageSexCountMap);
 }
 
 function generatePicaChart(studentsWithAge) {
@@ -114,27 +114,23 @@ function generateData(inputData) {
         return {...each, age};
     });
 
-    let histogramStr = generateHistogram(studentsWithAge);
+    let histogram = generateHistogram(studentsWithAge);
+
     let pieChartStr = generatePicaChart(studentsWithAge);
     let barChartStr = generateBarChart(studentsWithAge);
     let stackedBarChartStr = generateStackedBarChart();
 
-    const histogram = {
-        histogram: histogramStr
-    };
-
-    const chartDataObj = {
+    const chartData = {
         pieChart: pieChartStr,
         barChart: barChartStr,
         stackedBarChart: stackedBarChartStr
     }
 
     const result = {
-        histogram, chartDataObj
+        histogram, chartData: chartData
     }
 
     return result;
-
 }
 
 function getAge(birthdate) {
