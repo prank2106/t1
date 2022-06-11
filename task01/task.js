@@ -59,23 +59,19 @@ function defineTodayMinus18years() {
 
 //@@viewOff:helpers
 function generateRandomBirthDateForAgeInRange() {
-    let resultDate = getRandomDate2(todayMinus50Years,todayMinus18Years);
-    return resultDate;
+    fromDate = todayMinus50Years.getTime();
+    toDate = todayMinus18Years.getTime();
+    return new Date(fromDate + Math.random() * (toDate - fromDate)).toISOString();
 }
 
-function getRandomDate2(fromDate, toDate) {
-    fromDate = fromDate.getTime();
-    toDate = toDate.getTime();
-    return new Date(fromDate + Math.random() * (toDate - fromDate));
-}
 
 function generateRandomStudent() {
     let randomNr = getRandom(0, 1);
     const gender = genders[randomNr];
     const isMale = gender.toUpperCase() === "MALE";
 
-    let name = null;
-    let surname = null;
+    let name;
+    let surname;
 
     if (isMale) {
         name = getRandomElementFromArray(namesMale);
@@ -85,25 +81,22 @@ function generateRandomStudent() {
         surname = getRandomElementFromArray(surnamesFemale);
     }
 
-    let birthDate = generateRandomBirthDateForAgeInRange(todayMinus50Years, maxAge - minAge);
+    let birthdate = generateRandomBirthDateForAgeInRange(todayMinus50Years, maxAge - minAge);
 
-    const generatedStudent = {gender, birthDate, name, surname};
-    return generatedStudent;
+    return {gender, birthdate, name, surname};
 }
 
 function getRandomElementFromArray(names) {
-    const result = names[getRandom(0, names.length - 1)];
-
-    return result;
+    return names[getRandom(0, names.length - 1)];
 }
 
 /**
  * @param {Number} count Defines count of generated Students
  * */
 function generateNRandomStudents(count) {
-    const students = new Array(count);
+    const students = [];
     for (let i = 0; i < count; i++) {
-        students.push(generateRandomStudent())
+        students.push(generateRandomStudent());
     }
     return students;
 }
@@ -119,8 +112,4 @@ function main(dtoIn = {}) {
     return generateNRandomStudents(count);
 }
 
-defineTodayMinus50years();
-defineTodayMinus18years();
-let students = generateNRandomStudents(50);
-let test = "cau";
 //@@viewOff:main
