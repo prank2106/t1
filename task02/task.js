@@ -218,6 +218,8 @@ const dataArray = [
     }, {"gender": "male", "birthdate": "1985-02-28T13:38:43.560Z", "name": "Štefan", "surname": "Hájek"}];
 const minAge = 18;
 const maxAge = 50;
+const today = new Date();
+Object.freeze(today);
 
 //@@viewOff:const
 
@@ -245,49 +247,68 @@ function isGenderValid(input) {
     return input.toUpperCase().trim() === 'MALE' || input.toUpperCase().trim() === 'FEMALE';
 }
 
+function getAge(birthdate) {
+
+    let today = new Date();
+    let birthDate = new Date(birthdate);
+    let age = today.getFullYear() - birthDate.getFullYear();
+    let m = today.getMonth() - birthDate.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+    }
+    return Number(age);
+}
+
 //@@viewOn:helpers
 function calculateMetrics() {
     if (dataArray === null || dataArray.length === 0)
         return null;
 
-    /*let dataArrayAsObj = Object.entries(dataArray).map(([gender, birthdate, name, surname]) => {
-        return {
-            gender, birthdate, name, surname
-        }
-    });*/
-
-
     let total = 0;
     let sumOfAge = 0;
     let min = Number.MAX_SAFE_INTEGER;
     let max = Number.MIN_SAFE_INTEGER;
-    //median je stredni hodnota. musim seradit
-    //TODO: median
-    let median = null;
-    let avg = null
-    //make set to get unique values
-    let agesSet = new Set();
+    let agesArr = [];
 
     let current;
+    let currentAgeAsNumber;
     for (let i = 0; i < dataArray.length; i++) {
         current = dataArray[i];
-        //count total only if all data is filled
+        //count total only if all data is valid
         let isBirthDateValid = isValidDate(current.birthdate);
         if (isGenderValid(current.gender) && isBirthDateValid && isStringValid(current.surname) && isStringValid(current.name)) {
             total++;
-            if (current.age < min)
-                min = current.age;
-            if (current.age > max)
-                max = current.age;
-            sumOfAge += current.age;
-            agesSet.add(current.age);
+            currentAgeAsNumber = getAge(current.birthdate)
+
+            if (currentAgeAsNumber < min)
+                min = currentAgeAsNumber;
+            if (currentAgeAsNumber > max)
+                max = currentAgeAsNumber;
+
+            sumOfAge += currentAgeAsNumber;
+            agesArr.push(currentAgeAsNumber);
         }
-
-
-        console.log(dataArray[i]);
     }
 
-    const agesArr = new Array(agesSet).sort();
+    const sortedAges = agesArr.sort();
+    let median;
+    if (sortedAges.length % 2 === 0) {
+        median = (sortedAges[sortedAges.length / 2] + sortedAges[sortedAges.length / 2]) / 2;
+    } else {
+        median = sortedAges[sortedAges.length / 2];
+    }
+
+    let uniqueSorted = [];
+    for (let i = 0; i < sortedAges.length; i++) {
+        if (uniqueSorted[uniqueSorted.length - 1] !== sortedAges[i])
+            uniqueSorted.push(sortedAges[i]);
+    }
+
+    console.log(uniqueSorted)
+    console.log("uniqueSorted.length " + uniqueSorted.length)
+    let avg = Math.round((sumOfAge / total) * 10) / 10;
+    //let aaresult = {total, avg, min, max, median, uniqueSorted};
+
     return {total, avg, min, max, median, agesArr};
 }
 

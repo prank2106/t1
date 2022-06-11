@@ -48,3 +48,6 @@ console.log(isValidDate("1994-11-13T10:58:06.816Z"))
 
 let arr = [40,10,20,15];
 console.log(arr.sort())
+
+console.log(Math.round(125.46*10)/10);
+console.log(Math.round(125.44*10)/10);
