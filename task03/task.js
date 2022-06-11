@@ -96,42 +96,19 @@ function generateBarChart(studentsWithAge) {
     return resultArr;
 }
 
-function generateStackedBarChart(studentsWithAge) {
+function generateStackedBarChart() {
     let obj = {};
 
-    for (let i = 0; i < studentsWithAge.length; i++) {
-        let current = studentsWithAge[i];
-        let currentGender = current.gender;
-        if (obj[current.age]) {
-            obj[current.age] = current.age;
-            if (obj[current.valueMale])
-                obj[current.valueMale]++
-            else if (obj[current.valueMale])
-                obj[current.valueMale]++
-        } else {
-            obj[current.age] = current.age;
-            if (obj[current.valueMale])
-                obj[current.valueMale] = 1;
-            else if (obj[current.valueMale])
-                obj[current.valueMale] = 1;
-        }
-    }
+    ageSexCountMap.forEach((value, key) => {
+        obj = [...obj, {label: key, valueMale: value.male, valueFemale: value.female}];
+    });
 
-    let resultArr = [];
-    for (let key in obj) {
-        resultArr.push({
-            "label": key, "valueMale": obj[key], "valueFemale": obj[key]
-        });
-    }
-
-    return resultArr;
+    return obj;
 }
 
-function generateData() {
+function generateData(inputData) {
 
-    let ageBirthDayArr = data.classroom.map(each => new Date(each.birthdate));
-    let genderArr = data.classroom.map(each => each.gender);
-    let studentsWithAge = data.classroom.map(each => {
+    let studentsWithAge = inputData.classroom.map(each => {
         let age = getAge(each.birthdate);
         return {...each, age};
     });
@@ -139,7 +116,7 @@ function generateData() {
     let histogram = generateHistogram(studentsWithAge);
     let pieChart = generatePicaChart(studentsWithAge);
     let barChart = generateBarChart(studentsWithAge);
-    let stackedBarChart = generateStackedBarChart(studentsWithAge);
+    let stackedBarChart = generateStackedBarChart();
 
 }
 
@@ -165,8 +142,8 @@ function getAge(birthdate) {
  **/
 function main(dtoIn = {}) {
 
-    generateData();
+    generateData(dtoIn);
 }
 
 //@@viewOff:main
-generateData();
+generateData(data);
