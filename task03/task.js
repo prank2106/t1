@@ -8,6 +8,8 @@ const data = {
         {"gender": "female", "birthdate": "1995-05-27T22:00:00.000Z", "name": "Marcela", "surname": "Doležalová"}
     ]
 };
+//create a Map with a Key Age and value will be the object with male: count and female:count
+let ageSexCountMap = new Map();
 
 const chartDataPreview = `{
     "chartData": {
@@ -30,20 +32,19 @@ const chartDataPreview = `{
 
 function generateHistogram(studentsWithAge) {
 
-    //create a Map with a Key Age and value will be the object with male: count and female:count
-    let myMap = new Map();
+
     for (let i = 0; i < studentsWithAge.length; i++) {
         let current = studentsWithAge[i];
         let age = current.age;
         let gender = current.gender;
 
-        if (!myMap.has(age)) {
-            myMap.set(age, {
+        if (!ageSexCountMap.has(age)) {
+            ageSexCountMap.set(age, {
                 "male": gender.toUpperCase().trim() === "MALE" ? 1 : 0,
                 "female": gender.toUpperCase().trim() === "FEMALE" ? 1 : 0
             });
         } else {
-            let existing = myMap.get(age);
+            let existing = ageSexCountMap.get(age);
             if (gender.toUpperCase().trim() === "MALE") {
                 existing.male = existing.male++;
             } else if (gender.toUpperCase.trim() === "FEMALE") {
@@ -51,7 +52,7 @@ function generateHistogram(studentsWithAge) {
             }
         }
     }
-    return {histogram: myMap};
+    return {histogram: ageSexCountMap};
 }
 
 function generatePicaChart(studentsWithAge) {
