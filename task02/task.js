@@ -230,7 +230,6 @@ function isGenderValid(input) {
 
 function getAge(birthdate) {
 
-    //refer to const Date() above
     let birthDate = new Date(birthdate);
     let age = today.getFullYear() - birthDate.getFullYear();
     let m = today.getMonth() - birthDate.getMonth();
