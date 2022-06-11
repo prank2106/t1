@@ -240,8 +240,8 @@ function getAge(birthdate) {
 }
 
 //@@viewOn:helpers
-function calculateMetrics() {
-    if (dataArray === null || dataArray.length === 0)
+function calculateMetrics(input) {
+    if (input === null || input.length === 0)
         return null;
 
     let total = 0;
@@ -252,8 +252,8 @@ function calculateMetrics() {
 
     let current;
     let currentAgeAsNumber;
-    for (let i = 0; i < dataArray.length; i++) {
-        current = dataArray[i];
+    for (let i = 0; i < input.length; i++) {
+        current = input[i];
         //count total only if all data is valid
         let isBirthDateValid = isValidDate(current.birthdate);
         if (isGenderValid(current.gender) && isBirthDateValid && isStringValid(current.surname) && isStringValid(current.name)) {
@@ -295,12 +295,12 @@ function isValidDate(date) {
  * @return {object} output data
  **/
 function main(dtoIn = {}) {
-    return calculateMetrics();
+    return calculateMetrics(dtoIn);
 }
 
 //@@viewOff:main
 
-calculateMetrics();
+//calculateMetrics(dataArray);
 
 //{
 //  "total": 5,
