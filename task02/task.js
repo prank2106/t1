@@ -216,29 +216,10 @@ const dataArray = [
         "name": "Zuzana",
         "surname": "Stehlíková"
     }, {"gender": "male", "birthdate": "1985-02-28T13:38:43.560Z", "name": "Štefan", "surname": "Hájek"}];
-const minAge = 18;
-const maxAge = 50;
 const today = new Date();
 Object.freeze(today);
 
 //@@viewOff:const
-
-class Student {
-
-    /**
-     * @param {String} name Name of the person
-     * @param {String} surname Surname of the person
-     * @param {String} gender Gender of the person
-     * @param {Date} birthDate Name of the person
-     */
-    constructor(_name, _surname, _gender, _birthDate) {
-        this.name = _name;
-        this.surname = _surname;
-        this.gender = _gender;
-        this.birthDate = _birthDate;
-    }
-}
-
 function isStringValid(input) {
     return input != null && input.trim().length !== 0;
 }
