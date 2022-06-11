@@ -59,8 +59,8 @@ function defineTodayMinus18years() {
 
 //@@viewOff:helpers
 function generateRandomBirthDateForAgeInRange() {
-    fromDate = todayMinus50Years.getTime();
-    toDate = todayMinus18Years.getTime();
+    let fromDate = todayMinus50Years.getTime();
+    let toDate = todayMinus18Years.getTime();
     return new Date(fromDate + Math.random() * (toDate - fromDate)).toISOString();
 }
 
