@@ -223,11 +223,19 @@ Object.freeze(today);
 function isStringValid(input) {
     return input != null && input.trim().length !== 0;
 }
-
+/**
+ * checks if gender is valid
+ * @param {string} input 
+ * @returns 
+ */
 function isGenderValid(input) {
     return input.toUpperCase().trim() === 'MALE' || input.toUpperCase().trim() === 'FEMALE';
 }
-
+/**
+ * Counts age of student by substracting date of birth from current date. 
+ * @param {number} birthdate 
+ * @returns students age
+ */
 function getAge(birthdate) {
 
     let birthDate = new Date(birthdate);
@@ -240,6 +248,11 @@ function getAge(birthdate) {
 }
 
 //@@viewOn:helpers
+/**
+ * 
+ * @returns number of students, average age, age of youngest student, age of oldest student, middle value, all aghes from lowest to higest.
+ */
+
 function calculateMetrics() {
     if (dataArray === null || dataArray.length === 0)
         return null;
