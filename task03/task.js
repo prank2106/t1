@@ -51,7 +51,6 @@ function generateHistogram(studentsWithAge) {
             }
         }
     }
-    let blablabla = {histogram: myMap};
     return {histogram: myMap};
 }
 
@@ -97,9 +96,7 @@ function generateBarChart(studentsWithAge) {
 }
 
 function generateStackedBarChart(studentsWithAge) {
-    let obj = {
-
-    };
+    let obj = {};
 
     for (let i = 0; i < studentsWithAge.length; i++) {
         let current = studentsWithAge[i];
@@ -143,7 +140,6 @@ function generateData() {
     let barChart = generateBarChart(studentsWithAge);
     let stackedBarChart = generateStackedBarChart(studentsWithAge);
 
-    console("blablabla")
 }
 
 function getAge(birthdate) {

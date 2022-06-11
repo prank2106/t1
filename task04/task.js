@@ -317,7 +317,6 @@ function main(dtoIn = {}) {
     }
 
     return result;
-
 }
 
 let names2 = getNames(15, sampleData);
