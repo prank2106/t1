@@ -97,13 +97,14 @@ function generateBarChart(studentsWithAge) {
 }
 
 function generateStackedBarChart() {
-    let obj = {};
+    let arr = [];
 
     ageSexCountMap.forEach((value, key) => {
-        obj = [...obj, {label: key, valueMale: value.male, valueFemale: value.female}];
+        let current = {label: key, valueMale: value.male, valueFemale: value.female};
+        arr.push(current);
     });
 
-    return obj;
+    return arr;
 }
 
 function generateData(inputData) {
@@ -113,10 +114,26 @@ function generateData(inputData) {
         return {...each, age};
     });
 
-    let histogram = generateHistogram(studentsWithAge);
-    let pieChart = generatePicaChart(studentsWithAge);
-    let barChart = generateBarChart(studentsWithAge);
-    let stackedBarChart = generateStackedBarChart();
+    let histogramStr = generateHistogram(studentsWithAge);
+    let pieChartStr = generatePicaChart(studentsWithAge);
+    let barChartStr = generateBarChart(studentsWithAge);
+    let stackedBarChartStr = generateStackedBarChart();
+
+    const histogram = {
+        histogram: histogramStr
+    };
+
+    const chartDataObj = {
+        pieChart: pieChartStr,
+        barChart: barChartStr,
+        stackedBarChart: stackedBarChartStr
+    }
+
+    const result = {
+        histogram, chartDataObj
+    }
+
+    return result;
 
 }
 
@@ -146,4 +163,5 @@ function main(dtoIn = {}) {
 }
 
 //@@viewOff:main
-generateData(data);
+let generated = generateData(data);
+console.log(JSON.stringify(generated));
