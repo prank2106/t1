@@ -45,9 +45,35 @@ console.log(isValidDate("hello"))
 console.log(isValidDate("1994-11-13T10:58:06.816Z"))
 */
 
+/*
 
 let arr = [40,10,20,15];
 console.log(arr.sort())
 
 console.log(Math.round(125.46*10)/10);
-console.log(Math.round(125.44*10)/10);
+console.log(Math.round(125.44*10)/10);*/
+
+let test = `{
+  "top": 0.5,
+  "classroom": [
+    {"gender":"female","birthdate":"1978-12-03T23:00:00.000Z","name":"Jitka","surname":"Němcová"},
+    {"gender":"female","birthdate":"1999-01-13T23:00:00.000Z","name":"Jitka","surname":"Blažková"},
+    {"gender":"male","birthdate":"1982-01-13T23:00:00.000Z","name":"David","surname":"Kolář"},
+    {"gender":"male","birthdate":"1980-08-02T22:00:00.000Z","name":"Marek","surname":"Zeman"},
+    {"gender":"female","birthdate":"1995-05-27T22:00:00.000Z","name":"Marcela","surname":"Doležalová"}
+  ]
+}`;
+
+let parsed = JSON.parse(test);
+
+console.log(Object.entries(parsed))
+
+console.log(Object.keys(parsed).values())
+
+console.log(Object.entries(parsed).top)
+
+let arr = Object.entries(parsed).values;
+for (let each in arr) {
+    console.log(each)
+}
+

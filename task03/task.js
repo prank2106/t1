@@ -28,12 +28,12 @@ const chartDataPreview = `{
 //@@viewOn:helpers
 
 
-function generateHistogram(ageArr) {
+function generateHistogram(studentsWithAge) {
 
     //create a Map with a Key Age and value will be the object with male: count and female:count
     let myMap = new Map();
-    for (let i = 0; i < ageArr.length; i++) {
-        let current = ageArr[i];
+    for (let i = 0; i < studentsWithAge.length; i++) {
+        let current = studentsWithAge[i];
         let age = current.age;
         let gender = current.gender;
 
@@ -55,43 +55,95 @@ function generateHistogram(ageArr) {
     return {histogram: myMap};
 }
 
-function generateChartData(ageArr) {
+function generatePicaChart(studentsWithAge) {
 
-    const parsedObj = JSON.parse(chartDataPreview);
-
-    for (let i = 0; i < ageArr; i++) {
-        let current = ageArr[i];
-        let age = current.age;
+    let manCount = 0;
+    let womanCount = 0;
+    for (let i = 0; i < studentsWithAge.length; i++) {
+        let current = studentsWithAge[i];
         let gender = current.gender;
-        let translatedGender;
-        if ("MALE" === gender.toUpperCase().trim()) {
-            translatedGender = "Muž";
-            let test = Object.values(parsedObj.pieChart.label.get(translatedGender));
-            console.log(test);
-        }
+        if ("MALE" === gender.toUpperCase().trim())
+            manCount++;
         else if ("FEMALE" === gender.toUpperCase().trim())
-            translatedGender = "Žena";
-
-
-
-
+            womanCount++;
     }
 
-    return parsedObj;
+    return [
+        {label: "Muž", value: manCount},
+        {label: "Žena", value: womanCount}
+    ];
+}
+
+//cetnost veku
+function generateBarChart(studentsWithAge) {
+    let obj = {};
+
+    for (let i = 0; i < studentsWithAge.length; i++) {
+        let current = studentsWithAge[i];
+        if (obj[current.age]) {
+            obj[current.age]++
+        } else
+            obj[current.age] = 1;
+    }
+
+    let resultArr = [];
+    for (let key in obj) {
+        resultArr.push({
+            "label": key, "value": obj[key]
+        })
+    }
+
+    return resultArr;
+}
+
+function generateStackedBarChart(studentsWithAge) {
+    let obj = {
+
+    };
+
+    for (let i = 0; i < studentsWithAge.length; i++) {
+        let current = studentsWithAge[i];
+        let currentGender = current.gender;
+        if (obj[current.age]) {
+            obj[current.age] = current.age;
+            if (obj[current.valueMale])
+                obj[current.valueMale]++
+            else if (obj[current.valueMale])
+                obj[current.valueMale]++
+        } else {
+            obj[current.age] = current.age;
+            if (obj[current.valueMale])
+                obj[current.valueMale] = 1;
+            else if (obj[current.valueMale])
+                obj[current.valueMale] = 1;
+        }
+    }
+
+    let resultArr = [];
+    for (let key in obj) {
+        resultArr.push({
+            "label": key, "valueMale": obj[key], "valueFemale": obj[key]
+        });
+    }
+
+    return resultArr;
 }
 
 function generateData() {
 
     let ageBirthDayArr = data.classroom.map(each => new Date(each.birthdate));
     let genderArr = data.classroom.map(each => each.gender);
-    let ageArr = data.classroom.map(each => {
+    let studentsWithAge = data.classroom.map(each => {
         let age = getAge(each.birthdate);
         return {...each, age};
     });
 
-    let histogram = generateHistogram(ageArr);
-    let chartData = generateChartData(ageArr);
+    let histogram = generateHistogram(studentsWithAge);
+    let pieChart = generatePicaChart(studentsWithAge);
+    let barChart = generateBarChart(studentsWithAge);
+    let stackedBarChart = generateStackedBarChart(studentsWithAge);
 
+    console("blablabla")
 }
 
 function getAge(birthdate) {
@@ -121,34 +173,3 @@ function main(dtoIn = {}) {
 
 //@@viewOff:main
 generateData();
-/*
-* {
- "histogram": {
-  "22": {"male": 0,"female": 1},
-  "25": {"male": 0,"female": 1},
-  "39": {"male": 1,"female": 0},
-  "40": {"male": 1,"female": 0},
-  "42": {"male": 0,"female": 1}
- },
- "chartData": {
-  "pieChart": [
-   {"label": "Muž","value": 2},
-   {"label": "Žena","value": 3}
-  ],
-  "barChart": [
-   {"label": "22","value": 1},
-   {"label": "25","value": 1},
-   {"label": "39","value": 1},
-   {"label": "40","value": 1},
-   {"label": "42","value": 1}
-  ],
-  "stackedBarChart": [
-   {"label": "22","valueMale": 0,"valueFemale": 1},
-   {"label": "25","valueMale": 0,"valueFemale": 1},
-   {"label": "39","valueMale": 1,"valueFemale": 0},
-   {"label": "40","valueMale": 1,"valueFemale": 0},
-   {"label": "42","valueMale": 0,"valueFemale": 1}
-  ]
- }
-}
-* */
