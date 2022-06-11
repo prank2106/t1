@@ -216,21 +216,23 @@ const sampleData = [
         "name": "Zuzana",
         "surname": "Stehlíková"
     }, {"gender": "male", "birthdate": "1985-02-28T13:38:43.560Z", "name": "Štefan", "surname": "Hájek"}];
+let myMapBoth = new Map();
+let myMapMale = new Map();
+let myMapFemale = new Map();
+let sortedBoth = new Map();
+let sortedMale = new Map();
+let sortedFemale = new Map();
 //@@viewOff:const
 
 //@@viewOn:helpers
-function getNames(countOfNamesReturned) {
-    let myMapBoth = new Map();
-    let myMapMale = new Map();
-    let myMapFemale = new Map();
-
+function getNames(countOfNamesReturned, classRoom) {
     let nameSexMap = new Map();
-    sampleData.forEach(each => {
+    classRoom.forEach(each => {
         nameSexMap.set(each.name, each.gender);
     });
 
-    for (let i = 0; i < sampleData.length; i++) {
-        let current = sampleData[i];
+    for (let i = 0; i < classRoom.length; i++) {
+        let current = classRoom[i];
         //dohromady
         if (myMapBoth.has(current.name)) {
             myMapBoth.set(current.name, myMapBoth.get(current.name) + 1);
@@ -239,25 +241,31 @@ function getNames(countOfNamesReturned) {
         }
     }
 
-    myMapBoth.forEach((value, key) => {
-        let isMale = nameSexMap.get(key).toUpperCase().trim() === "MALE";
-        if (isMale)
-            myMapMale.set(key, value);
-        else
-            myMapFemale.set(key, value);
+    sortedBoth = new Map([...myMapBoth.entries()].sort((a, b) => b[1] - a[1]));
+
+    let counter = 0;
+    const slicedBoth = new Map();
+
+    sortedBoth.forEach((value, key) => {
+        counter++;
+        if (counter <= countOfNamesReturned) {
+            let isMale = nameSexMap.get(key).toUpperCase().trim() === "MALE";
+            if (isMale)
+                myMapMale.set(key, value);
+            else
+                myMapFemale.set(key, value);
+
+            slicedBoth.set(key, value);
+        }
     });
 
-    const sortedBoth = new Map([...myMapBoth.entries()]
-        .sort((a, b) => b[1] - a[1]));
-    const sortedMale = new Map([...myMapMale.entries()]
-        .sort((a, b) => b[1] - a[1]));
-    const sortedFemale = new Map([...myMapFemale.entries()]
-        .sort((a, b) => b[1] - a[1]));
 
-    const slicedBoth = Array.from(sortedBoth).slice(sortedBoth.size - countOfNamesReturned);
+    sortedMale = new Map([...myMapMale.entries()].sort((a, b) => b[1] - a[1]));
+    sortedFemale = new Map([...myMapFemale.entries()].sort((a, b) => b[1] - a[1]));
 
+    const allObj = {all: slicedBoth, male: sortedMale, female: sortedFemale}
 
-    return JSON.stringify(slicedBoth);
+    return allObj;
 }
 
 //@@viewOff:helpers
@@ -281,16 +289,56 @@ function main(dtoIn = {}) {
         names = getNames(3, classRoom)
     }
 
-
-    let allObj = {all: names};
-
-
-    return {
-        names: names
+    const [firstKeyGirls] = sortedFemale.keys();
+    const firstGirlObj = {
+        label: firstKeyGirls, value: sortedFemale.get(firstKeyGirls)
     }
+
+    const [firstKeyBoy] = sortedMale.keys();
+    const firstBoyObj = {
+        label: firstKeyBoy, value: sortedMale.get(firstKeyBoy)
+    }
+
+    const all = [firstGirlObj, firstBoyObj];
+    const male = [firstBoyObj];
+    const female = [firstGirlObj];
+
+    const chartData = {
+        arrAll: all, arrMale: male, arrFemale: female
+    }
+
+    const result = {
+        names: names,
+        chartDataObj: chartData
+    }
+
+    return result;
 
 }
 
-let test = names = getNames(15);
-console.log("jkl;kjfs;dlfsd")
+let names2 = getNames(15, sampleData);
+
+const [firstKeyGirls] = sortedFemale.keys();
+const firstGirlObj = {
+    label: firstKeyGirls, value: sortedFemale.get(firstKeyGirls)
+}
+
+const [firstKeyBoy] = sortedMale.keys();
+const firstBoyObj = {
+    label: firstKeyBoy, value: sortedMale.get(firstKeyBoy)
+}
+
+const arrAll = [firstGirlObj, firstBoyObj];
+const arrMale = [firstBoyObj];
+const arrFemale = [firstGirlObj];
+
+const chartData = {
+    arrAll, arrMale, arrFemale
+}
+
+const result = {
+    names: names2,
+    chartDataObj: chartData
+}
+console.log(JSON.stringify(result))
 //@@viewOff:main
