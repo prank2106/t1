@@ -26,7 +26,7 @@ for (let i = 0; i < 50; i++) {
 
 //console.log("male".toUpperCase() === "MALE")
 
-function getRandomDate2(fromDate, toDate) {
+/*function getRandomDate2(fromDate, toDate) {
     fromDate = fromDate.getTime();
     toDate = toDate.getTime();
     return new Date(fromDate + Math.random() * (toDate - fromDate));
@@ -34,4 +34,17 @@ function getRandomDate2(fromDate, toDate) {
 
 for (let i = 0; i < 10; i++) {
     console.log(getRandomDate2(new Date(1972,5,11),new Date(2004,5,11)))
+}*/
+
+/*
+const isValidDate = function(date) {
+    return (new Date(date) !== "Invalid Date") && !isNaN(new Date(date));
 }
+
+console.log(isValidDate("hello"))
+console.log(isValidDate("1994-11-13T10:58:06.816Z"))
+*/
+
+
+let arr = [40,10,20,15];
+console.log(arr.sort())
